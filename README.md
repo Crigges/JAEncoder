@@ -1,6 +1,6 @@
 # JAEncoder
 Just Another Encoder is a license friendly h264 encoder and muxer for Windows. It is based on [openh264](https://github.com/cisco/openh264)
-provided by Cisco Systems which is based on BSD license and [libmp4v2](https://github.com/sergiomb2/libmp4v2) which is based on MPL.  
+provided by Cisco Systems which is based on BSD license and [libmp4v2](https://github.com/sergiomb2/libmp4v2) which is based on MPL license.  
 JAEncoder has a super simple API and some build in performance tuning.
 
 ## How to use
@@ -44,3 +44,9 @@ You can just follow the steps above, but there are no precompiled 3rd party dlls
 ### Other Plattforms
 The code itself is not Plattform dependent, but there is no building system for Linux or Android yet, feel free to add it yourself.
 
+## Why should I use this libary over FFmpeg?  
+You shouldn't use this project if you don't mind to use the LGPL:  
+- libx264 is faster than openh264
+- FFmpeg has tons of features
+- FFmpeg comes with broad support
+If you are just looking for an easy and simple way to create a .mp4 file out of some image data than this libary is the way to go.
