@@ -48,5 +48,6 @@ The code itself is not Plattform dependent, but there is no building system for 
 You shouldn't use this project if you don't mind to use the LGPL:  
 - libx264 is faster than openh264
 - FFmpeg has tons of features
-- FFmpeg comes with broad support
+- FFmpeg comes with broad support  
+
 If you are just looking for an easy and simple way to create a .mp4 file out of some image data than this libary is the way to go.
