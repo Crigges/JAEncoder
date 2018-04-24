@@ -31,16 +31,16 @@ Finaly don't forget to close the encoder:
 encoder.close();
 ```
 
-##How to build
+## How to build
 
-###Windows 64bit
+### Windows 64bit
 Open the Visual Studio Solution under `vs/JAEncoder` and just build the main Project. The test project has some not pushed dependencies
 yet to support other image formats in the future. If the build is successful the binarys should be located inside the `bin` folder. 
 Don't forget to copy the 3rd party dlls from the ext folder, otherwise the application can't launch.
 
-###Windows 32bit
+### Windows 32bit
 You can just follow the steps above, but there are no precompiled 3rd party dlls yet, you have to compile/download them yourself
 
-###Other Plattforms
+### Other Plattforms
 The code itself is not Plattform dependent, but there is no building system for Linux or Android yet, feel free to add it yourself.
 
