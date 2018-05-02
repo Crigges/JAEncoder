@@ -1,0 +1,11 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(373,5): warning MSB8004: Das Output-Verzeichnis endet nicht mit einem nachstehenden Schrägstrich. Der Schrägstrich wird in dieser Buildinstanz hinzugefügt, da er für die ordnungsgemäße Auswertung des Output-Verzeichnisses erforderlich ist.
+  JAEncoder.cpp
+..\..\..\src\JAEncoder\JAEncoder.cpp(39): warning C4244: "=": Konvertierung von "int" in "float", möglicher Datenverlust
+..\..\..\src\JAEncoder\JAEncoder.cpp(59): warning C4244: "=": Konvertierung von "int" in "float", möglicher Datenverlust
+     Bibliothek "..\..\..\bin\x64\Release\JAEncoder.lib" und Objekt "..\..\..\bin\x64\Release\JAEncoder.exp" werden erstellt.
+  Code wird generiert.
+  3 of 291 functions ( 1.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Codegenerierung ist abgeschlossen.
+  JAEncoder.vcxproj -> C:\Users\Crigges\Documents\Visual Studio 2017\Projects\JAEncoder\vs\JAEncoder\JAEncoder\..\..\..\bin\x64\Release\JAEncoder.dll

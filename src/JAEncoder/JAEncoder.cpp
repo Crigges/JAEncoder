@@ -4,7 +4,7 @@
 #include <iostream>
 #include <thread>
 
-#define TIME_SCALE 90000
+#define TIME_SCALE 9000
 
 void printError(std::string message) {
 	std::cout << "[JAEncoder Error] " << message << std::endl;
@@ -51,7 +51,7 @@ JAEncoder::JAEncoder(const char * filename, JAEncoderConfig * config) {
 	param.bEnableAdaptiveQuant = config->enableImageOptimisation;
 	param.bEnableFrameSkip = config->enableImageOptimisation;
 	param.iMultipleThreadIdc = std::thread::hardware_concurrency();
-	param.uiIntraPeriod = 25;//config->framerate;
+	param.uiIntraPeriod = config->keyframeInterval;
 
 	param.iSpatialLayerNum = 1;
 	param.sSpatialLayers[0].iVideoWidth = config->width;
@@ -102,32 +102,40 @@ int JAEncoder::encodeFrame(unsigned char * frame) {
 		std::cout << "[JAEncoder Error] Could not encode frame, check encoder settings and the passed frame" << std::endl;
 		return 0;
 	}
-
+	int len = 0;
 	for (int i = 0; i < encodedFrame->iLayerNum; ++i) {
-		int len = 0;
 		const SLayerBSInfo& layerInfo = encodedFrame->sLayerInfo[i];
-		unsigned char* bitstream = encodedFrame->sLayerInfo[i].pBsBuf;
-		if (encodedFrame->eFrameType == videoFrameTypeIDR && i == 0) {
-			MP4AddH264SequenceParameterSet(mp4Handle, mp4Track, bitstream + 4, layerInfo.pNalLengthInByte[0] - 4);
-			MP4AddH264PictureParameterSet(mp4Handle, mp4Track, bitstream + layerInfo.pNalLengthInByte[0] + 4, layerInfo.pNalLengthInByte[1] - 4);
-		}
-		else {
-			for (int j = 0; j < layerInfo.iNalCount; ++j) {
-				len += layerInfo.pNalLengthInByte[j];
-			}
-
-			bitstream[0] = (len - 4) >> 24;
-			bitstream[1] = (len - 4) >> 16;
-			bitstream[2] = (len - 4) >> 8;
-			bitstream[3] = (len - 4) & 0xff;
-
-			if (!MP4WriteSample(mp4Handle, mp4Track, bitstream, len, MP4_INVALID_DURATION, 0, 1)) {
-				std::cout << "Error when writing sample" << std::endl;
-				system("pause");
-				exit(1);
-			}
+		for (int j = 0; j < layerInfo.iNalCount; ++j) {
+			len += layerInfo.pNalLengthInByte[j];
 		}
 	}
+	MP4WriteSample(mp4Handle, mp4Track, encodedFrame->sLayerInfo[0].pBsBuf, len, MP4_INVALID_DURATION, MP4_INVALID_DURATION, 1);
+	//for (int i = 0; i < encodedFrame->iLayerNum; ++i) {
+	//	int len = 0;
+	//	const SLayerBSInfo& layerInfo = encodedFrame->sLayerInfo[i];
+	//	unsigned char* bitstream = encodedFrame->sLayerInfo[i].pBsBuf;
+	//	std::cout << "Frametype: " << encodedFrame->eFrameType << std::endl;
+	//	//if (encodedFrame->eFrameType == videoFrameTypeIDR && i == 0) {
+	//	//	MP4AddH264SequenceParameterSet(mp4Handle, mp4Track, bitstream + 4, layerInfo.pNalLengthInByte[0] - 4);
+	//	//	MP4AddH264PictureParameterSet(mp4Handle, mp4Track, bitstream + layerInfo.pNalLengthInByte[0] + 4, layerInfo.pNalLengthInByte[1] - 4);
+	//	//}
+	//	//else {
+	//	//	for (int j = 0; j < layerInfo.iNalCount; ++j) {
+	//	//		len += layerInfo.pNalLengthInByte[j];
+	//	//	}
+
+	//	//	//bitstream[0] = (len - 4) >> 24;
+	//	//	//bitstream[1] = (len - 4) >> 16;
+	//	//	//bitstream[2] = (len - 4) >> 8;
+	//	//	//bitstream[3] = (len - 4) & 0xff;
+
+	//	//	if (!MP4WriteSample(mp4Handle, mp4Track, bitstream, len, MP4_INVALID_DURATION, MP4_INVALID_DURATION, 1)) {
+	//	//		std::cout << "Error when writing sample" << std::endl;
+	//	//		system("pause");
+	//	//		exit(1);
+	//	//	}
+	//	//}
+	//}
 }
 
 void JAEncoder::close() {

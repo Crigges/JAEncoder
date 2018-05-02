@@ -2,7 +2,7 @@
 #include <chrono>
 #include <iostream>
 #include "JAEncoder.h"
-#include "ipp.h"
+
 
 #define HEIGHT 480
 #define WIDTH 640
@@ -43,22 +43,23 @@ int main() {
 	config.width = WIDTH;
 	config.targetBitrate = 40000000;
 	config.videoFormat = YUV420;
-	config.framerate = 25;
+	config.framerate = 75;
 	config.enableImageOptimisation = false;
+	config.keyframeInterval = 15;
 	JAEncoder encoder("JAtest.mp4", &config);
-	Ipp8u* rgbFrame = new unsigned char[WIDTH * HEIGHT * 3];
-	Ipp8u* frame = new unsigned char[WIDTH * HEIGHT * 3];
+	unsigned char* rgbFrame = new unsigned char[WIDTH * HEIGHT * 3 / 2];
+	/*Ipp8u* frame = new unsigned char[WIDTH * HEIGHT * 3];
 	Ipp8u** yuvFrame = new Ipp8u*[3];
 	yuvFrame[0] = frame;
 	yuvFrame[1] = yuvFrame[0] + WIDTH * HEIGHT;
 	yuvFrame[2] = yuvFrame[1] + (WIDTH * HEIGHT >> 2);
-	IppiSize size;
-	size.width = WIDTH;
-	size.height = HEIGHT;
-	for (int i = 0; i < 75 * 5; i++) {
-		prepareFrameRGB(i, rgbFrame);
-		ippiRGBToYUV420_8u_C3P3(rgbFrame, yuvFrame, size);
-		encoder.encodeFrame(frame);
+	IppiSize size;*/
+	/*size.width = WIDTH;
+	size.height = HEIGHT;*/
+	for (int i = 0; i < 29*75; i++) {
+		prepareFrameYUV(i, rgbFrame);
+		//ippiRGBToYUV420_8u_C3P3(rgbFrame, yuvFrame, size);
+		encoder.encodeFrame(rgbFrame);
 	}
 	encoder.close();
 	cout << "done in: ";

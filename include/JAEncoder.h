@@ -17,6 +17,7 @@ typedef enum {
 typedef struct {
 	int width, height;				//Of the source images in pixels
 	int framerate;
+	int keyframeInterval;           //Set to framerate if unsure
 	int targetBitrate;				//Try to play around with this value
 	bool enableImageOptimisation;	//If true techniques to improve image quality are enabled
 									//This costs a lot performance, rather increase Bitrate if filesize does not matter
